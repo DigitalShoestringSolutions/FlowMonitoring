@@ -1,0 +1,17 @@
+services:
+      flow-collection1:
+        build: .
+        privileged: true
+        volumes:
+            - ./config:/app/config
+        networks:
+            internal:
+                aliases:
+                    - flow-dc.docker.local
+        logging:
+            driver: syslog
+            options:
+                tag: docker-flow-dc
+        restart: unless-stopped
+        depends_on:
+            - "mqtt_broker"

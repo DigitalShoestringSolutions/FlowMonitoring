@@ -48,54 +48,14 @@ services:
         depends_on:
             - "mqtt_broker"
  
-   
-    flow-collection:
-        extends:
-            file: flow_dc/app.yml
-            service: app
-        networks:
-            internal:
-                aliases:
-                    - flow-dc.docker.local
-        logging:
-            driver: syslog
-            options:
-                tag: docker-flow-dc
-        restart: unless-stopped
-        depends_on:
-            - "mqtt_broker"
 
-    flow-collection1:
-        extends:
-            file: flow_dc1/app.yml
-            service: app
-        networks:
-            internal:
-                aliases:
-                    - flow-dc.docker.local
-        logging:
-            driver: syslog
-            options:
-                tag: docker-flow-dc
-        restart: unless-stopped
-        depends_on:
-            - "mqtt_broker"
- 
 
-    mqtt_broker:
-        extends:
-            file: mqtt_broker/app.yml
-            service: app
-        restart: unless-stopped
-        logging:
-            driver: syslog
-            options:
-                tag: docker-mqtt-broker
-        networks:
-            internal:
-                aliases:
-                    - mqtt.docker.local
 
 networks:
      internal:
          name: shoestring-internal
+
+include:
+    - flow_dc/docker-compose.yml
+    - flow_dc1/docker-compose.yml
+    - mqtt_broker/docker-compose.yml
