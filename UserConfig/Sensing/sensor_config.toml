@@ -10,22 +10,4 @@
     max_pressure = "1.75 MPa"
     min_flow = 1 #Liters/min
     max_flow = 30 #Liters/min
-
-
-[sampling]
-    sample_count = 5
-    sample_interval = 0.2 
-
-
-[computing]
-	hardware="Pi4"
-	#hardware="Rock4C+"
- 
-[mqtt]
-    broker = "mqtt.docker.local"
-    port = 1883   #common mqtt ports are 1883 and 8883
-    base_topic_template = "flow_monitoring/{{machine}}"
-
-    reconnect.initial = 5 # seconds
-    reconnect.backoff = 2 # multiplier
-    reconnect.limit = 60 # seconds
+    
