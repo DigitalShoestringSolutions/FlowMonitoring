@@ -1,14 +1,5 @@
 # ----------------------------------------------------------------------
 #
-#    Power Monitoring (Basic solution) -- This digital solution measures,
-#    reports and records both AC power and current consumed by an electrical 
-#    equipment, so that its energy consumption can be understood and 
-#    taken action upon. This version comes with one current transformer 
-#    clamp of 20A that is buckled up to the electric line the equipment 
-#    is connected to. The solution provides a Grafana dashboard that 
-#    displays current and power consumption, and an InfluxDB database 
-#    to store timestamp, current and power. 
-#
 #    Copyright (C) 2022  Shoestring and University of Cambridge
 #
 #    This program is free software: you can redistribute it and/or modify
