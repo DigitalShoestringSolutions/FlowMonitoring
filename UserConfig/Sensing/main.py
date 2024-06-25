@@ -5,18 +5,13 @@ from time import sleep
 from hardware.generic.PulseCounter import PulseCounter
 from utilities.mqtt_out import publish
 
-# settings
-pin_number = 17
-pulses_per_litre = 7.5
-machine = "pressure_washer"
-source = "overhead_tank"
-
 # setup sensors and models
-flow_sensor = PulseCounter(pin_number)
+# I have a flow sensor connected to pin 17 (BCM) that outputs a 7.5 pulses per litre passed
+flow_sensor = PulseCounter(pin_num=17)
 
 # loop
 while True:
     sleep(3)
-    flow_rate = flow_sensor.get_recent_pulse_density() * 60 / pulses_per_litre       # pulses per second to litres per minute
-    publish({ "flow_rate" : flow_rate , "machine" : machine , "source" : source })
+    flow_rate = flow_sensor.get_recent_pulse_density() * 60 / 7.5       # pulses per second to litres per minute
+    publish({ "flow_rate" : flow_rate , "machine" : "MyMachineNameHere" , "source" : "MySourceNameHere" })
     
