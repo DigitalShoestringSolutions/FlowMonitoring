@@ -12,6 +12,10 @@ flow_sensor = PulseCounter(pin_num=17)
 # loop
 while True:
     sleep(3)
-    flow_rate = flow_sensor.get_recent_pulse_density() * 60 / 7.5       # pulses per second to litres per minute
-    publish({ "flow_rate" : flow_rate , "machine" : "MyMachineNameHere" , "source" : "MySourceNameHere" })
+    pulses, density = flow_sensor.recent_pulses_and_density()
+    
+    flow = pulses / 7.5             # pulses to litres
+    flow_rate = density*3600/7.5    # pulses per second to litres per hour
+ 
+    publish({ "flow": flow, "flow_rate" : flow_rate , "machine" : "MyMachineNameHere" , "source" : "MySourceNameHere" })
     
