@@ -91,7 +91,7 @@
               }
             ]
           },
-          "unit": "flowlpm"
+          "unit": "litreh"
         },
         "overrides": []
       },
@@ -124,7 +124,7 @@
           "refId": "A"
         }
       ],
-      "title": "Flow history for ${machine}",
+      "title": "Flow history at ${machine}",
       "type": "timeseries"
     },
     {
@@ -143,24 +143,12 @@
             "mode": "percentage",
             "steps": [
               {
-                "color": "dark-red",
+                "color": "green",
                 "value": null
-              },
-              {
-                "color": "orange",
-                "value": 20
-              },
-              {
-                "color": "semi-dark-green",
-                "value": 50
-              },
-              {
-                "color": "semi-dark-blue",
-                "value": 95
               }
             ]
           },
-          "unit": "flowlpm"
+          "unit": "litreh"
         },
         "overrides": []
       },
@@ -192,7 +180,7 @@
             "type": "influxdb",
             "uid": "influxdb"
           },
-          "query": "from(bucket: \"shoestring_data_bucket\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"flow_status\")\n  |> filter(fn: (r) => r[\"_field\"] == \"flow_rate\")\n  |> filter(fn: (r) => r[\"machine\"] == \"${machine}\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+          "query": "from(bucket: \"shoestring_data_bucket\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"flow_status\")\n  |> filter(fn: (r) => r[\"_field\"] == \"flow_rate\")\n  |> filter(fn: (r) => r[\"machine\"] == \"${machine}\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> group()\n  |> yield(name: \"last\")",
           "refId": "A"
         }
       ],
@@ -216,19 +204,15 @@
               {
                 "color": "green",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           },
-          "unit": "flowlpm"
+          "unit": "litreh"
         },
         "overrides": []
       },
       "gridPos": {
-        "h": 4,
+        "h": 8,
         "w": 12,
         "x": 0,
         "y": 8
@@ -255,15 +239,74 @@
             "type": "influxdb",
             "uid": "influxdb"
           },
-          "query": "from(bucket: \"shoestring_data_bucket\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"flow_status\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"flow_rate\")\r\n  |> filter(fn: (r) => r[\"machine\"] == \"MyMachineNameHere\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"shoestring_data_bucket\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"flow_status\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"flow_rate\")\r\n  |> filter(fn: (r) => r[\"machine\"] == \"${machine}\")\r\n  |> group()\r\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
-      "title": "Average flow rate in timeframe",
+      "title": "Average flow rate at ${machine} in timeframe",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "influxdb"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "litre"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      },
+      "id": 8,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "sum"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.4.7",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "influxdb"
+          },
+          "query": "from(bucket: \"shoestring_data_bucket\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"flow_status\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"flow\")\r\n  |> filter(fn: (r) => r[\"machine\"] == \"${machine}\")\r\n  |> group()\r\n  |> yield(name: \"mean\")",
+          "refId": "A"
+        }
+      ],
+      "title": "Total flow at ${machine} in timeframe",
       "type": "stat"
     }
   ],
-  "refresh": "5s",
+  "refresh": false,
   "revision": 1,
   "schemaVersion": 38,
   "style": "dark",
@@ -272,9 +315,9 @@
     "list": [
       {
         "current": {
-          "selected": false,
-          "text": "All",
-          "value": "$__all"
+          "selected": true,
+          "text": "MyMachineNameHere",
+          "value": "MyMachineNameHere"
         },
         "datasource": {
           "type": "influxdb",
@@ -283,34 +326,12 @@
         "definition": "from(bucket: \"shoestring_data_bucket\")\r\n  |> range(start: -365d)\r\n  |> keep(columns: [\"machine\"])\r\n  |> distinct(column: \"machine\")\r\n  |> filter(fn: (r) => r[\"machine\"] != \"null\")\r\n  |> group()",
         "description": "Select which sensor to monitor",
         "hide": 0,
-        "includeAll": true,
+        "includeAll": false,
+        "label": "Sensor",
         "multi": false,
         "name": "machine",
         "options": [],
         "query": "from(bucket: \"shoestring_data_bucket\")\r\n  |> range(start: -365d)\r\n  |> keep(columns: [\"machine\"])\r\n  |> distinct(column: \"machine\")\r\n  |> filter(fn: (r) => r[\"machine\"] != \"null\")\r\n  |> group()",
-        "refresh": 1,
-        "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
-        "type": "query"
-      },
-      {
-        "current": {
-          "selected": false,
-          "text": "All",
-          "value": "$__all"
-        },
-        "datasource": {
-          "type": "influxdb",
-          "uid": "influxdb"
-        },
-        "definition": "from(bucket: \"shoestring_data_bucket\")\n  |> range(start: -7d)\n  |> keep(columns: [\"source\"])\n  |> distinct(column: \"source\")\n  |> filter(fn: (r) => r[\"source\"] != \"null\")\n  |> group()",
-        "hide": 0,
-        "includeAll": true,
-        "multi": false,
-        "name": "source",
-        "options": [],
-        "query": "from(bucket: \"shoestring_data_bucket\")\n  |> range(start: -7d)\n  |> keep(columns: [\"source\"])\n  |> distinct(column: \"source\")\n  |> filter(fn: (r) => r[\"source\"] != \"null\")\n  |> group()",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
@@ -325,8 +346,8 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Flow Sensors Dashboard",
+  "title": "Sensors",
   "uid": "w-icnm2Sk",
-  "version": 6,
+  "version": 15,
   "weekStart": ""
 }
