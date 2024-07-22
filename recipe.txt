@@ -1,5 +1,0 @@
-SetupLogging=feature/recipe
-MQTTBroker=feature/recipe
-Timeseries=feature/recipe
-Grafana=feature/recipe
-Sensing=feature/recipe-lite
