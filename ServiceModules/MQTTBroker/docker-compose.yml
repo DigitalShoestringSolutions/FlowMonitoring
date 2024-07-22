@@ -1,0 +1,17 @@
+services:
+        mqtt_broker:
+            image: eclipse-mosquitto:2.0
+            volumes:
+                - ./config/mosquitto.conf:/mosquitto/config/mosquitto.conf
+            ports:
+                - "1883:1883"
+                - "9001:9001"
+            networks:
+                internal:
+                    aliases:
+                        - mqtt.docker.local
+            logging:
+                    driver: syslog
+                    options:
+                            tag: docker-mqtt-broker
+            restart: unless-stopped

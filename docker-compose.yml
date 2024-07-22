@@ -1,0 +1,9 @@
+include:
+    - ServiceModules/Timeseries/docker-compose.yml
+    - ServiceModules/Sensing/docker-compose.yml
+    - ServiceModules/MQTTBroker/docker-compose.yml
+    - ServiceModules/Grafana/docker-compose.yml
+
+networks:
+     internal:
+         name: shoestring-internal

@@ -1,0 +1,19 @@
+paho-mqtt==1.6.1 # MQTT client for publishing
+
+## IO Busses
+#smbus2==0.4.3
+
+## GPIO
+#  Outside of a venv, gpiozero works great on a pi5. 
+#  Getting it to work inside is harder.
+#gpiozero==2.0.1         # cross-platform GPIO interface
+
+#  Experiments to offer a Pin Factory (hardwre interface) to gpiozero:
+#swig			# to support installation of lgpio
+#lgpio==0.2.2.0
+#rpi-lgpio		# on a pi5, "this module can only be run on a raspberry pi!"
+#rpi.gpio		# on a pi5, "this module can only be run on a raspberry pi!"
+#pigpio==1.78		# on a pi5, fails with many errors.
+
+## Specific Sensors
+#bmp280==0.0.4

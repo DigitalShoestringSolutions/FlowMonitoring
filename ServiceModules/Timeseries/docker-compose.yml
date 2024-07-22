@@ -1,0 +1,50 @@
+services:
+
+        timeseries-db:
+            image: influxdb:2.6
+            command: "./entrypoint.sh --reporting-disabled"
+            volumes:
+            - ./data/influxdb2:/var/lib/influxdb2:rw
+            ports:
+            - "8086:8086"
+            environment: 
+            - DOCKER_INFLUXDB_INIT_MODE=setup
+            - DOCKER_INFLUXDB_INIT_USERNAME=${DB_ADMIN_USER}
+            - DOCKER_INFLUXDB_INIT_PASSWORD=${DB_ADMIN_INITIAL_PASSWORD}
+            - DOCKER_INFLUXDB_INIT_ORG=${DB_ORG}
+            - DOCKER_INFLUXDB_INIT_BUCKET=${DB_BUCKET}
+            - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=${DB_ADMIN_INITIAL_TOKEN}
+            - DOCKER_INFLUXDB_INIT_RETENTION=730d
+            networks:
+                internal:
+                    aliases:
+                        - timeseries-db.docker.local
+            logging:
+                driver: syslog
+                options:
+                    tag: docker-timeseries-db
+            restart: unless-stopped
+            depends_on:
+                - "mqtt_broker"
+            
+        timeseries-db-input:
+            image: telegraf:1.21
+            privileged: true
+            volumes:
+            - ./config/telegraf.conf:/etc/telegraf/telegraf.conf
+            environment: 
+            - DOCKER_INFLUXDB_ORG=${DB_ORG}
+            - DOCKER_INFLUXDB_BUCKET=${DB_BUCKET}
+            - DOCKER_CURRENT_INFLUXDB_TOKEN=${DB_ADMIN_INITIAL_TOKEN}
+            networks:
+                internal:
+                    aliases:
+                        - timeseries-input.docker.local
+            logging:
+                driver: syslog
+                options:
+                    tag: docker-timeseries-input
+            restart: unless-stopped
+            depends_on:
+                - "timeseries-db"
+                - "mqtt_broker"
