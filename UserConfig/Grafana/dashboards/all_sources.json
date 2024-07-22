@@ -24,7 +24,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 5,
+  "id": 1,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -53,13 +53,16 @@
               "viz": false
             },
             "lineInterpolation": "linear",
+            "lineStyle": {
+              "fill": "solid"
+            },
             "lineWidth": 1,
             "pointSize": 5,
             "scaleDistribution": {
               "type": "linear"
             },
             "showPoints": "auto",
-            "spanNulls": false,
+            "spanNulls": 60000,
             "stacking": {
               "group": "A",
               "mode": "none"
@@ -96,7 +99,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 15,
+        "h": 16,
         "w": 12,
         "x": 0,
         "y": 0
@@ -120,7 +123,7 @@
             "type": "influxdb",
             "uid": "influxdb"
           },
-          "query": "from(bucket: \"shoestring_data_bucket\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"flow_status\")\n  |> filter(fn: (r) => r[\"_field\"] == \"flow_rate\")\n  |> filter(fn: (r) => r[\"machine\"] == \"${machine}\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"shoestring_data_bucket\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"flow_status\")\n  |> filter(fn: (r) => r[\"_field\"] == \"flow_rate\")\n  //|> filter(fn: (r) => r[\"machine\"] == \"${machine}\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: true)\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
@@ -151,7 +154,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 15,
+        "h": 16,
         "w": 12,
         "x": 12,
         "y": 0
@@ -186,50 +189,25 @@
             "type": "influxdb",
             "uid": "influxdb"
           },
-          "query": "from(bucket: \"shoestring_data_bucket\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"flow_status\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"flow\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"shoestring_data_bucket\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"flow_status\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"flow\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: sum, createEmpty: false)\r\n  |> group(columns: [\"source\"])",
           "refId": "A"
         }
       ],
-      "title": "Sources Split",
+      "title": "Sources Split in timeframe",
+      "transformations": [],
       "type": "piechart"
     }
   ],
-  "refresh": false,
+  "refresh": "5s",
   "revision": 1,
   "schemaVersion": 38,
   "style": "dark",
   "tags": [],
   "templating": {
-    "list": [
-      {
-        "current": {
-          "selected": false,
-          "text": "All",
-          "value": "$__all"
-        },
-        "datasource": {
-          "type": "influxdb",
-          "uid": "influxdb"
-        },
-        "definition": "from(bucket: \"shoestring_data_bucket\")\r\n  |> range(start: -365d)\r\n  |> keep(columns: [\"machine\"])\r\n  |> distinct(column: \"machine\")\r\n  |> filter(fn: (r) => r[\"machine\"] != \"null\")\r\n  |> group()",
-        "description": "Select which sensor to monitor",
-        "hide": 0,
-        "includeAll": true,
-        "label": "Sensor",
-        "multi": false,
-        "name": "machine",
-        "options": [],
-        "query": "from(bucket: \"shoestring_data_bucket\")\r\n  |> range(start: -365d)\r\n  |> keep(columns: [\"machine\"])\r\n  |> distinct(column: \"machine\")\r\n  |> filter(fn: (r) => r[\"machine\"] != \"null\")\r\n  |> group()",
-        "refresh": 1,
-        "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
-        "type": "query"
-      }
-    ]
+    "list": []
   },
   "time": {
-    "from": "now-1h",
+    "from": "now-7d",
     "to": "now"
   },
   "timepicker": {},
