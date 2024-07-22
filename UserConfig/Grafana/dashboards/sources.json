@@ -24,7 +24,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 4,
+  "id": 3,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -53,13 +53,16 @@
               "viz": false
             },
             "lineInterpolation": "linear",
+            "lineStyle": {
+              "fill": "solid"
+            },
             "lineWidth": 1,
             "pointSize": 5,
             "scaleDistribution": {
               "type": "linear"
             },
             "showPoints": "auto",
-            "spanNulls": false,
+            "spanNulls": 60000,
             "stacking": {
               "group": "A",
               "mode": "none"
@@ -120,7 +123,7 @@
             "type": "influxdb",
             "uid": "influxdb"
           },
-          "query": "from(bucket: \"shoestring_data_bucket\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"flow_status\")\n  |> filter(fn: (r) => r[\"_field\"] == \"flow_rate\")\n  |> filter(fn: (r) => r[\"source\"] == \"${source}\")\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"shoestring_data_bucket\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"flow_status\")\n  |> filter(fn: (r) => r[\"_field\"] == \"flow_rate\")\n  |> filter(fn: (r) => r[\"source\"] == \"${source}\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: true)\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
@@ -180,7 +183,7 @@
             "type": "influxdb",
             "uid": "influxdb"
           },
-          "query": "from(bucket: \"shoestring_data_bucket\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"flow_status\")\n  |> filter(fn: (r) => r[\"_field\"] == \"flow_rate\")\n  |> filter(fn: (r) => r[\"source\"] == \"${source}\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+          "query": "from(bucket: \"shoestring_data_bucket\")\n  |> range(start: v.timeRangeStart, stop: now())\n  |> filter(fn: (r) => r[\"_measurement\"] == \"flow_status\")\n  |> filter(fn: (r) => r[\"_field\"] == \"flow_rate\")\n  |> filter(fn: (r) => r[\"source\"] == \"${source}\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> tail(n: 1)",
           "refId": "A"
         }
       ],
@@ -204,10 +207,6 @@
               {
                 "color": "green",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           },
@@ -216,7 +215,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 4,
+        "h": 8,
         "w": 12,
         "x": 0,
         "y": 8
@@ -243,7 +242,7 @@
             "type": "influxdb",
             "uid": "influxdb"
           },
-          "query": "from(bucket: \"shoestring_data_bucket\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"flow_status\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"flow_rate\")\r\n  |> filter(fn: (r) => r[\"source\"] == \"${source}\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"shoestring_data_bucket\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"flow_status\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"flow_rate\")\r\n  |> filter(fn: (r) => r[\"source\"] == \"${source}\")",
           "refId": "A"
         }
       ],
@@ -279,7 +278,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 4,
+        "h": 8,
         "w": 12,
         "x": 12,
         "y": 8
@@ -306,7 +305,7 @@
             "type": "influxdb",
             "uid": "influxdb"
           },
-          "query": "from(bucket: \"shoestring_data_bucket\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"flow_status\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"flow\")\r\n  |> filter(fn: (r) => r[\"source\"] == \"${source}\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"shoestring_data_bucket\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"flow_status\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"flow\")\r\n  |> filter(fn: (r) => r[\"source\"] == \"${source}\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: sum, createEmpty: false)",
           "refId": "A"
         }
       ],
@@ -314,7 +313,7 @@
       "type": "stat"
     }
   ],
-  "refresh": "",
+  "refresh": "5s",
   "revision": 1,
   "schemaVersion": 38,
   "style": "dark",
@@ -324,8 +323,8 @@
       {
         "current": {
           "selected": true,
-          "text": "MySourceNameHere",
-          "value": "MySourceNameHere"
+          "text": "MyOtherSource",
+          "value": "MyOtherSource"
         },
         "datasource": {
           "type": "influxdb",
@@ -348,13 +347,13 @@
     ]
   },
   "time": {
-    "from": "now-3h",
+    "from": "now-7d",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "Sources",
   "uid": "HfTAh1_Sz",
-  "version": 7,
+  "version": 6,
   "weekStart": ""
 }
