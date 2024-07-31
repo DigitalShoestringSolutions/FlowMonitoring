@@ -1,5 +1,6 @@
-SetupLogging=feature/recipe
-MQTTBroker=feature/recipe
-Timeseries=feature/recipe
-Grafana=feature/recipe
-Sensing=feature/recipe-lite
+Docker=v1.0.0
+SetupLogging=v1.1.0
+MQTTBroker=v1.0.0
+Timeseries=v1.0.0
+Grafana=v1.0.0
+Sensing=lite-v0.1.0
