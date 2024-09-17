@@ -1,2 +1,2 @@
-gpiozero
-rpi.gpio
+gpiozero==2.0.1
+rpi.gpio==0.7.1
