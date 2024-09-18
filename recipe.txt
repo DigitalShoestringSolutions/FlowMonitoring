@@ -1,6 +1,15 @@
-Docker=v1.0.0
-SetupLogging=v1.1.0
-MQTTBroker=v1.0.0
-Timeseries=v1.0.0
-Grafana=v1.0.0
-Sensing=lite-v0.1.0
+# Shoestring Infrastructure
+Docker=v1.0
+SetupLogging=v1.1
+
+# Data collection
+Sensing=lite-v0.3
+
+# Data transfer
+MQTTBroker=v1.0
+
+# Data storage
+InfluxDB=v1.0
+
+# Dashboard
+Grafana=v1.1
