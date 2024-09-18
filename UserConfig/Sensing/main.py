@@ -18,4 +18,4 @@ while True:
     flow = pulses / pulses_per_litre             # pulses to litres
     flow_rate = density*3600/pulses_per_litre    # pulses per second to litres per hour
 
-    publish({ "flow": flow, "flow_rate" : flow_rate , "machine" : "MyMachineNameHere" , "source" : "MySourceNameHere" })
+    publish({ "flow": flow, "flow_rate" : flow_rate , "machine" : "MyMachineName1" , "source" : "MySourceName1" })
