@@ -6,9 +6,9 @@ from hardware.generic.PulseCounter import PulseCounter
 from utilities.mqtt_out import publish
 
 # setup sensors and models.
-# I have a flow sensor connected to pin 26 (BCM) that outputs a 7.5 pulses per litre passed.
-flow_sensor = PulseCounter(pin_num=26)
-pulses_per_litre = 7.5
+# I have a flow sensor connected to pin 19 (BCM) that outputs a 30 pulses per litre passed.
+flow_sensor = PulseCounter(pin_num=19)
+pulses_per_litre = 30
 
 # loop
 while True:

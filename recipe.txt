@@ -4,6 +4,7 @@ SetupLogging=v1.1
 
 # Data collection
 Sensing=lite-v0.3
+Sensing=lite-v0.3
 
 # Data transfer
 MQTTBroker=v1.0
