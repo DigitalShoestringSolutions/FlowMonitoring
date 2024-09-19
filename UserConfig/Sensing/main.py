@@ -17,8 +17,8 @@ flow_sensor_2 = PulseCounter(pin_num=19, multiplier=1/20)
 while True:
     sleep(3)    # Publish readings every 3 seconds
 
-    volume, rate = flow_sensor_1.recent_pulses_and_density()    # litres, litres per second
+    volume, rate = flow_sensor_1.recent_pulses_and_density(timescale=3600)      # litres, litres per hour
     publish({ "flow": volume, "flow_rate" : rate , "machine" : "MyMachineName1" , "source" : "MySourceName1" })
-    
-    volume, rate = flow_sensor_2.recent_pulses_and_density()    # litres, litres per second
+
+    volume, rate = flow_sensor_2.recent_pulses_and_density(timescale=3600)      # litres, litres per hour
     publish({ "flow": volume, "flow_rate" : rate , "machine" : "MyMachineName2" , "source" : "MySourceName2" })
