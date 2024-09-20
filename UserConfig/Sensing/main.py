@@ -7,10 +7,10 @@ from utilities.mqtt_out import publish
 
 
 # setup sensors and models.
-# I have a flow sensor connected to pin 26 (BCM) that outputs 7.5 pulses per litre passed.
-flow_sensor_1 = PulseCounter(pin_num=26, multiplier=1/7.5)
-# I have another flow sensor connected to pin 19 (BCM) that outputs 20 pulses per litre passed.
-flow_sensor_2 = PulseCounter(pin_num=19, multiplier=1/20)
+# I have a flow sensor connected to pin 23 (BCM numbering) that outputs 7.5 pulses per litre passed.
+flow_sensor_1 = PulseCounter(pin_num=23, multiplier=1/7.5)
+# I have another flow sensor connected to pin 24 (BCM numbering) that outputs 20 pulses per litre passed.
+flow_sensor_2 = PulseCounter(pin_num=24, multiplier=1/20)
 
 
 # loop
