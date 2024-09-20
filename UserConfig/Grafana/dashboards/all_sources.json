@@ -112,7 +112,7 @@
           "calcs": [],
           "displayMode": "list",
           "placement": "bottom",
-          "showLegend": false
+          "showLegend": true
         },
         "tooltip": {
           "mode": "single",
@@ -125,7 +125,7 @@
             "type": "influxdb",
             "uid": "influxdb"
           },
-          "query": "from(bucket: \"shoestring_data_bucket\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"flow_status\")\n  |> filter(fn: (r) => r[\"_field\"] == \"flow_rate\")\n  //|> filter(fn: (r) => r[\"machine\"] == \"${machine}\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: true)\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"shoestring_data_bucket\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"flow_status\")\n  |> filter(fn: (r) => r[\"_field\"] == \"flow_rate\")\n  |> group(columns: [\"_measurement\", \"_field\", \"source\"])\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: true)\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
@@ -191,7 +191,7 @@
             "type": "influxdb",
             "uid": "influxdb"
           },
-          "query": "from(bucket: \"shoestring_data_bucket\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"flow_status\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"flow\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: sum, createEmpty: false)\r\n  |> group(columns: [\"source\"])",
+          "query": "from(bucket: \"shoestring_data_bucket\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"flow_status\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"flow\")\r\n  |> group(columns: [\"_measurement\", \"_field\", \"source\"])\r\n  |> aggregateWindow(every: v.windowPeriod, fn: sum, createEmpty: false)",
           "refId": "A"
         }
       ],
@@ -214,6 +214,6 @@
   "timezone": "",
   "title": "All Sources",
   "uid": "FtNxT1_Ik",
-  "version": 2,
+  "version": 4,
   "weekStart": ""
 }
