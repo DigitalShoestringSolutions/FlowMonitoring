@@ -2,3 +2,5 @@
 !**/.gitkeep
 start_local.sh
 *.DS_Store
+ServiceModules/
+docker-compose.yml
