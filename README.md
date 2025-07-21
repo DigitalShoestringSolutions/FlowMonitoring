@@ -5,10 +5,10 @@
 - Open the downloaded folder `cd FlowMonitoring`
 
 ### Configure & Assemble
-- Edit the config file to set machine name, source and calibration value `nano UserConfig/Sensing/main.py`
-- Check the recipe contains the Service Modules you desire `nano recipe.txt`
-- Assemble the Service Modules `ServiceModules/Asssembly/get_service_modules.sh`
-- Restart to apply the settings to the downloaded Service Modules
+- Edit the config file to set machine name, source and calibration value `nano Config/Sensing/main.py`
+- Check the recipe contains the Modules you desire `nano recipe.txt`
+- Assemble the Modules `Modules/Asssembly/get_modules.sh`
+- Restart to apply the settings to the downloaded Modules
 
 ### Build & Run
 - Build the docker containers `docker compose build`
