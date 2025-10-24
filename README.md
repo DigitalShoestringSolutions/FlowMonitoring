@@ -1,18 +1,5 @@
 # Flow Monitoring Starter Solution
 
-### Download
-- Clone this repo `git clone https://github.com/DigitalShoestringSolutions/FlowMonitoring`
-- Open the downloaded folder `cd FlowMonitoring`
-
-### Configure & Assemble
-- Edit the config file to set machine name, source and calibration value `nano Config/Sensing/main.py`
-- Check the recipe contains the Modules you desire `nano recipe.txt`
-- Assemble the Modules `Modules/Asssembly/get_modules.sh`
-- Restart to apply the settings to the downloaded Modules
-
-### Build & Run
-- Build the docker containers `docker compose build`
-- Start the docker containers `./start.sh`
 
 ### Usage
 - View the dashboard: navigate to `localhost:3000` in a web browser

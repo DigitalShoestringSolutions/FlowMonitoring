@@ -1,5 +1,0 @@
-**/data/*
-!**/.gitkeep
-*.DS_Store
-Modules/
-docker-compose.yml
