@@ -9,7 +9,7 @@ In the terminal, run:
 ## Use the Shoestring App to download and configure this Solution
 - In the terminal run `shoestring app`, or double click the desktop icon called `Shoestring`.  
 - Use the `Download` button to select the name of this solution. Select the latest release tag.  
-- Follow the prompts to configure
+- No configuration is required. Shoestring sensing of flow cannot be done on a Raspberry Pi, an external microcontroller (such as a Pico) is required.  
 
 ## Build & Start
 Continue accepting the prompts to build and start now
