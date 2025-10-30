@@ -215,7 +215,7 @@
       {
         "hide": 2,
         "name": "measurement",
-        "query": "flow_status",
+        "query": "flow",
         "skipUrlSync": false,
         "type": "constant"
       }
