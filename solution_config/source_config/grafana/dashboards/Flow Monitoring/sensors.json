@@ -334,7 +334,7 @@
           "type": "influxdb",
           "uid": "influxdb"
         },
-        "definition": "from(bucket: \"shoestring_data_bucket\")\r\n  |> range(start: -30d)\r\n  |> keep(columns: [\"machine\"])\r\n  |> distinct(column: \"machine\")\r\n  |> filter(fn: (r) => r[\"machine\"] != \"null\")\r\n  |> group()",
+        "definition": "from(bucket: \"flow_monitoring\")\r\n  |> range(start: -30d)\r\n  |> keep(columns: [\"machine\"])\r\n  |> distinct(column: \"machine\")\r\n  |> filter(fn: (r) => r[\"machine\"] != \"null\")\r\n  |> group()",
         "description": "Select which sensor to monitor",
         "hide": 0,
         "includeAll": false,
@@ -342,7 +342,7 @@
         "multi": false,
         "name": "machine",
         "options": [],
-        "query": "from(bucket: \"shoestring_data_bucket\")\r\n  |> range(start: -30d)\r\n  |> keep(columns: [\"machine\"])\r\n  |> distinct(column: \"machine\")\r\n  |> filter(fn: (r) => r[\"machine\"] != \"null\")\r\n  |> group()",
+        "query": "from(bucket: \"flow_monitoring\")\r\n  |> range(start: -30d)\r\n  |> keep(columns: [\"machine\"])\r\n  |> distinct(column: \"machine\")\r\n  |> filter(fn: (r) => r[\"machine\"] != \"null\")\r\n  |> group()",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
@@ -352,7 +352,7 @@
       {
         "hide": 2,
         "name": "bucket",
-        "query": "shoestring_data_bucket",
+        "query": "flow_monitoring",
         "skipUrlSync": false,
         "type": "constant"
       },
