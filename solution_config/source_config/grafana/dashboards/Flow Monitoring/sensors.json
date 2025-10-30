@@ -247,7 +247,7 @@
             "type": "influxdb",
             "uid": "influxdb"
           },
-          "query": "from(bucket: \"${bucket}\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"flow_status${measurement}\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"flow_rate\")\r\n  |> filter(fn: (r) => r[\"machine\"] == \"${machine}\")\r\n  |> group()",
+          "query": "from(bucket: \"${bucket}\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"${measurement}\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"flow_rate\")\r\n  |> filter(fn: (r) => r[\"machine\"] == \"${machine}\")\r\n  |> group()",
           "refId": "A"
         }
       ],
