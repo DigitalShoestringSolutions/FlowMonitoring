@@ -1,6 +1,8 @@
 # Recipe format compatibility check i.e. what versions of the assembler does this recipe work with? 
 recipe_vsn = "1.0.0"
 
+
+
 # About the solution as a whole
 [solution]
     name = "Flow Monitoring"
@@ -53,19 +55,24 @@ recipe_vsn = "1.0.0"
 # Available module code sources which can feed the above instances
 [source.sensing]
     git.path = "sm_SensingDC"
-    git.tag = "v1.0.0"
+    git.tag = "v1.4.0"
+
 [source.data_storage]
     git.path = "sm_timeseries_db"
     git.tag = "v2.0.0"
+
 [source.grafana]
     git.path = "sm_grafana_ui"
     git.tag = "v2.0.0"
+
 [source.mqtt_broker]
     git.path = "sm_mqtt_broker"
     git.tag = "v2.0.0"
+
 [source.logging]
     git.path = "Logging"
     git.tag = "v1.0.0"
+
 [source.plink]
     git.path = "PlatformLink"
     git.tag = "v1.0.0"
