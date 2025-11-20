@@ -24,7 +24,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 3,
+  "id": 5,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -55,6 +55,9 @@
             },
             "insertNulls": false,
             "lineInterpolation": "linear",
+            "lineStyle": {
+              "fill": "solid"
+            },
             "lineWidth": 1,
             "pointSize": 5,
             "scaleDistribution": {
@@ -122,11 +125,11 @@
             "type": "influxdb",
             "uid": "influxdb"
           },
-          "query": "from(bucket: \"shoestring_data_bucket\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"flow_status\")\n  |> filter(fn: (r) => r[\"_field\"] == \"flow_rate\")\n  |> filter(fn: (r) => r[\"machine\"] == \"${machine}\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: true)\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"${bucket}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"${measurement}\")\n  |> filter(fn: (r) => r[\"_field\"] == \"flow_rate\")\n  |> filter(fn: (r) => r[\"source\"] == \"${source}\")\n  |> group(columns: [\"_measurement\", \"_field\"])\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: true)\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
-      "title": "Flow history at ${machine}",
+      "title": "Flow history from ${source}",
       "type": "timeseries"
     },
     {
@@ -185,11 +188,11 @@
             "type": "influxdb",
             "uid": "influxdb"
           },
-          "query": "from(bucket: \"shoestring_data_bucket\")\n  |> range(start: v.timeRangeStart, stop: now())\n  |> filter(fn: (r) => r[\"_measurement\"] == \"flow_status\")\n  |> filter(fn: (r) => r[\"_field\"] == \"flow_rate\")\n  |> filter(fn: (r) => r[\"machine\"] == \"${machine}\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> group()\n  |> yield(name: \"last\")",
+          "query": "from(bucket: \"${bucket}\")\n  |> range(start: v.timeRangeStart, stop: now())\n  |> filter(fn: (r) => r[\"_measurement\"] == \"${measurement}\")\n  |> filter(fn: (r) => r[\"_field\"] == \"flow_rate\")\n  |> filter(fn: (r) => r[\"source\"] == \"${source}\")\n  |> group(columns: [\"_measurement\", \"_field\"])\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> tail(n: 1)",
           "refId": "A"
         }
       ],
-      "title": "Instantaneous Flow at ${machine}",
+      "title": "Instantaneous Flow from ${source}",
       "type": "stat"
     },
     {
@@ -247,11 +250,11 @@
             "type": "influxdb",
             "uid": "influxdb"
           },
-          "query": "from(bucket: \"shoestring_data_bucket\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"flow_status\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"flow_rate\")\r\n  |> filter(fn: (r) => r[\"machine\"] == \"${machine}\")\r\n  |> group()",
+          "query": "from(bucket: \"${bucket}\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"${measurement}\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"flow_rate\")\r\n  |> filter(fn: (r) => r[\"source\"] == \"${source}\")\r\n  |> group(columns: [\"_measurement\", \"_field\"])",
           "refId": "A"
         }
       ],
-      "title": "Average flow rate at ${machine} in timeframe",
+      "title": "Average flow rate from ${source} in timeframe",
       "type": "stat"
     },
     {
@@ -309,11 +312,11 @@
             "type": "influxdb",
             "uid": "influxdb"
           },
-          "query": "from(bucket: \"shoestring_data_bucket\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"flow_status\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"flow\")\r\n  |> filter(fn: (r) => r[\"machine\"] == \"${machine}\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: sum, createEmpty: false)\r\n  |> group()",
+          "query": "from(bucket: \"${bucket}\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"${measurement}\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"flow\")\r\n  |> filter(fn: (r) => r[\"source\"] == \"${source}\")\r\n  |> group(columns: [\"_measurement\", \"_field\"])\r\n  |> aggregateWindow(every: v.windowPeriod, fn: sum, createEmpty: false)",
           "refId": "A"
         }
       ],
-      "title": "Total flow at ${machine} in timeframe",
+      "title": "Total flow from ${source} in timeframe",
       "type": "stat"
     }
   ],
@@ -325,28 +328,42 @@
     "list": [
       {
         "current": {
-          "selected": true,
-          "text": "MyMachineName1",
-          "value": "MyMachineName1"
+          "isNone": true,
+          "selected": false,
+          "text": "None",
+          "value": ""
         },
         "datasource": {
           "type": "influxdb",
           "uid": "influxdb"
         },
-        "definition": "from(bucket: \"shoestring_data_bucket\")\r\n  |> range(start: -30d)\r\n  |> keep(columns: [\"machine\"])\r\n  |> distinct(column: \"machine\")\r\n  |> filter(fn: (r) => r[\"machine\"] != \"null\")\r\n  |> group()",
-        "description": "Select which sensor to monitor",
+        "definition": "from(bucket: \"flow_monitoring\")\n  |> range(start: -30d)\n  |> keep(columns: [\"source\"])\n  |> distinct(column: \"source\")\n  |> filter(fn: (r) => r[\"source\"] != \"null\")\n  |> group()",
         "hide": 0,
         "includeAll": false,
-        "label": "Sensor",
+        "label": "Source",
         "multi": false,
-        "name": "machine",
+        "name": "source",
         "options": [],
-        "query": "from(bucket: \"shoestring_data_bucket\")\r\n  |> range(start: -30d)\r\n  |> keep(columns: [\"machine\"])\r\n  |> distinct(column: \"machine\")\r\n  |> filter(fn: (r) => r[\"machine\"] != \"null\")\r\n  |> group()",
+        "query": "from(bucket: \"flow_monitoring\")\n  |> range(start: -30d)\n  |> keep(columns: [\"source\"])\n  |> distinct(column: \"source\")\n  |> filter(fn: (r) => r[\"source\"] != \"null\")\n  |> group()",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
         "sort": 0,
         "type": "query"
+      },
+      {
+        "hide": 2,
+        "name": "bucket",
+        "query": "flow_monitoring",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "measurement",
+        "query": "flow",
+        "skipUrlSync": false,
+        "type": "constant"
       }
     ]
   },
@@ -356,8 +373,8 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Sensors",
-  "uid": "w-icnm2Sk",
+  "title": "Sources",
+  "uid": "HfTAh1_Sz",
   "version": 2,
   "weekStart": ""
 }

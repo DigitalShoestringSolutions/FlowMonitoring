@@ -1,5 +1,10 @@
-**/data/*
-!**/.gitkeep
+# Compiled and metadata file types
+__pycache__/
 *.DS_Store
-Modules/
-docker-compose.yml
+
+# Explicit exclusions
+data/**
+assembled/**
+
+# Explicit inclusions
+!**/.gitkeep

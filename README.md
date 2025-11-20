@@ -1,20 +1,20 @@
 # Flow Monitoring Starter Solution
 
-### Download
-- Clone this repo `git clone https://github.com/DigitalShoestringSolutions/FlowMonitoring`
-- Open the downloaded folder `cd FlowMonitoring`
+## Install the Shoestring Assembler
+In the terminal, run:
+- `sudo apt install pipx -y`
+- `sudo pipx run shoestring-setup`
+- `sudo reboot` if prompted to restart
 
-### Configure & Assemble
-- Edit the config file to set machine name, source and calibration value `nano Config/Sensing/main.py`
-- Check the recipe contains the Modules you desire `nano recipe.txt`
-- Assemble the Modules `Modules/Asssembly/get_modules.sh`
-- Restart to apply the settings to the downloaded Modules
+## Use the Shoestring Assembler to download and configure this Solution
+- In the terminal run `shoestring app`, or double click the desktop icon called `Shoestring`.  
+- Use the `Download` button to select the name of this solution. Select the latest release tag.  
+- No configuration is required. Shoestring sensing of flow cannot be done on a Raspberry Pi, an external microcontroller (such as a Pico) is required.  
 
-### Build & Run
-- Build the docker containers `docker compose build`
-- Start the docker containers `./start.sh`
+## Build & Start
+Continue accepting the prompts to build and start now
 
-### Usage
+## Usage
 - View the dashboard: navigate to `localhost:3000` in a web browser
 <br>
 
